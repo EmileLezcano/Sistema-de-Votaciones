@@ -1,40 +1,95 @@
-<!-- views/temas.ejs -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Votaciones</title>
+    <title>Telescopios</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
-    <h1>Votaciones</h1>
-    
-    <form id="temasForm">
-        <input type="text" id="tema" placeholder="Tema" required>
-        <input type="text" id="url" placeholder="URL" required>
-        <button type="submit">Agregar Tema</button>
-    </form>
+<body class="bg-gray-100 min-h-screen">
 
-    <!-- Formulario de edición (oculto por defecto) -->
-    <form id="editForm" style="display:none;">
-        <input type="text" id="editTema" placeholder="Nuevo Tema" required>
-        <input type="text" id="editUrl" placeholder="Nueva URL" required>
-        <button type="submit">Actualizar Tema</button>
-        <button type="button" onclick="cancelarEdicion()">Cancelar</button>
-    </form>
-    
-    <ul id="temasList">
-        <% temas.forEach(tema => { %>
-            <li>
-                <strong><%= tema.tema %></strong> - <a href="<%= tema.url %>"><%= tema.url %></a>
-                <a href="<%= tema.url %>" target="_blank" rel="noopener noreferrer"><%= tema.url %></a>
-                Votos: <%= tema.voto %>
-                <button onclick="votarTema(<%= tema.id %>)">Votar</button>
-                <button onclick="eliminarTema(<%= tema.id %>)">Eliminar</button>
-                <button onclick="editarTema(<%= tema.id %>, '<%= tema.tema %>', '<%= tema.url %>')">Editar</button>
-            </li>
-        <% }) %>
-    </ul>
+    <div class="container mx-auto px-4 py-8">
+        <!-- Título -->
+        <h1 class="text-4xl font-bold text-center text-gray-800 mb-10">Vota por tu telescopio espacial favorito</h1>
+        
+        <!-- Formulario principal -->
+        <form id="temasForm" class="max-w-xl mx-auto bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4 text-center">Agrega un telescopio</h2>
+            <div class="space-y-4">
+                <div>
+                    <input type="text" id="tema" placeholder="Ingresa un telescopio" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                </div>
+                <div>
+                    <input type="text" id="url" placeholder="Ingresa la URL" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                </div>
+                <button type="submit" 
+                    class="w-full bg-blue-500 text-white py-3 px-4 rounded-md font-semibold hover:bg-blue-600 transition-colors">
+                    <i class="fas fa-plus mr-2"></i>Guardar
+                </button>
+            </div>
+        </form>
+
+        <!-- Formulario de edición -->
+        <form id="editForm" style="display:none;" 
+            class="max-w-xl mx-auto bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-4 text-center">Editar Telescopio</h2>
+            <div class="space-y-4">
+                <input type="text" id="editTema" placeholder="Nuevo Tema" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
+                <input type="text" id="editUrl" placeholder="Nueva URL" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400">
+                <div class="flex space-x-4">
+                    <button type="submit" 
+                        class="flex-1 bg-green-500 text-white py-3 px-4 rounded-md font-semibold hover:bg-green-600 transition-colors">
+                        <i class="fas fa-check mr-2"></i>Actualizar
+                    </button>
+                    <button type="button" onclick="cancelarEdicion()"
+                        class="flex-1 bg-gray-400 text-white py-3 px-4 rounded-md font-semibold hover:bg-gray-500 transition-colors">
+                        <i class="fas fa-times mr-2"></i>Cancelar
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Lista de temas -->
+        <ul id="temasList" class="max-w-2xl mx-auto space-y-4">
+            <% temas.forEach(tema => { %>
+                <li class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <h3 class="text-2xl font-semibold text-gray-800"><%= tema.tema %></h3>
+                            <a href="<%= tema.url %>" target="_blank" rel="noopener noreferrer" 
+                                class="text-blue-500 hover:text-blue-600 text-sm mt-1 block">
+                                <i class="fas fa-link mr-1"></i><%= tema.url %>
+                            </a>
+                            <div class="mt-3">
+                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                                    <i class="fas fa-thumbs-up mr-1"></i><%= tema.voto %> votos
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="votarTema(<%= tema.id %>)"
+                                class="p-3 text-blue-500 bg-blue-100 rounded-full hover:bg-blue-200 transition-colors">
+                                <i class="fas fa-thumbs-up"></i>
+                            </button>
+                            <button onclick="editarTema(<%= tema.id %>, '<%= tema.tema %>', '<%= tema.url %>')"
+                                class="p-3 text-yellow-500 bg-yellow-100 rounded-full hover:bg-yellow-200 transition-colors">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button onclick="eliminarTema(<%= tema.id %>)"
+                                class="p-3 text-red-500 bg-red-100 rounded-full hover:bg-red-200 transition-colors">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+    </div>
 
     <script src="/client.js"></script>
 </body>
