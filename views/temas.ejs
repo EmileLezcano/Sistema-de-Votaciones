@@ -27,6 +27,7 @@
         <% temas.forEach(tema => { %>
             <li>
                 <strong><%= tema.tema %></strong> - <a href="<%= tema.url %>"><%= tema.url %></a>
+                <a href="<%= tema.url %>" target="_blank" rel="noopener noreferrer"><%= tema.url %></a>
                 Votos: <%= tema.voto %>
                 <button onclick="votarTema(<%= tema.id %>)">Votar</button>
                 <button onclick="eliminarTema(<%= tema.id %>)">Eliminar</button>
