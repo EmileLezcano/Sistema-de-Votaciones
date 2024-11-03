@@ -1,0 +1,40 @@
+<!-- views/temas.ejs -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votaciones</title>
+</head>
+<body>
+    <h1>Votaciones</h1>
+    
+    <form id="temasForm">
+        <input type="text" id="tema" placeholder="Tema" required>
+        <input type="text" id="url" placeholder="URL" required>
+        <button type="submit">Agregar Tema</button>
+    </form>
+
+    <!-- Formulario de edición (oculto por defecto) -->
+    <form id="editForm" style="display:none;">
+        <input type="text" id="editTema" placeholder="Nuevo Tema" required>
+        <input type="text" id="editUrl" placeholder="Nueva URL" required>
+        <button type="submit">Actualizar Tema</button>
+        <button type="button" onclick="cancelarEdicion()">Cancelar</button>
+    </form>
+    
+    <ul id="temasList">
+        <% temas.forEach(tema => { %>
+            <li>
+                <strong><%= tema.tema %></strong> - <a href="<%= tema.url %>"><%= tema.url %></a>
+                Votos: <%= tema.voto %>
+                <button onclick="votarTema(<%= tema.id %>)">Votar</button>
+                <button onclick="eliminarTema(<%= tema.id %>)">Eliminar</button>
+                <button onclick="editarTema(<%= tema.id %>, '<%= tema.tema %>', '<%= tema.url %>')">Editar</button>
+            </li>
+        <% }) %>
+    </ul>
+
+    <script src="/client.js"></script>
+</body>
+</html>
